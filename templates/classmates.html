@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+{% load static %}
+<html>
+	<head>
+		<title>ClassMates</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+
+
+	</head>
+    <style>
+        .divbox{
+            margin: 10px auto;
+            text-align: center;
+        }
+    </style>
+
+	<body>
+		<div id="wrap">
+			<div id="top_content">
+				<div id="header">
+					<div id="rightheader">
+						<p>
+							2009/11/20
+							<br />
+						</p>
+					</div>
+					<div id="topheader">
+						<h1 id="title">
+							<a href="#">main</a>
+						</h1>
+					</div>
+					<div id="navigation">
+					</div>
+				</div>
+				<div id="content">
+					<p id="whereami">
+					</p>
+					<h1>
+						Welcome!
+					</h1>
+					<table class="table">
+						<tr class="table_header">
+							<td>
+								ID
+							</td>
+
+							<td>
+								Name
+							</td>
+							<td>
+								Telephone
+							</td>
+
+                            <td>
+								Gender
+							</td>
+
+							<td>
+								Operation
+							</td>
+						</tr>
+
+                        {% for foo in page.object_list %}
+                            <tr class="row2">
+                                <td>{{ forloop.counter}}</td>
+
+
+                                <td><a href="{% url 'classapp:class_mate_node' %}?id={{ foo.id }}">{{ foo.name }}</a></td>
+                                <td>{{ foo.t_n1 }}</td>
+
+                                <td>{{ foo.t_n2 }}</td>
+
+                                <td>
+								<a href="javascript:void(0)" id="a1" onclick="del({{ foo.id }})"  >delete Mate</a>&nbsp;<a href="{% url 'classapp:update_mate_node' %}?id={{ foo.id }}">update node</a>
+							    </td>
+
+
+                            </tr>
+                        {% endfor %}
+
+
+
+
+
+
+					</table>
+					<p>
+						<input type="button" class="button" value="Add classmate" onclick="location='{% url 'classapp:addMate' %}?num={{ page.number }}&num2={{ page.end_index }}'"/>
+					</p>
+                     <div class="divbox">
+                        {% if page.has_previous %}
+                        <a href="{% url 'classapp:classmates' %}?num={{ page.previous_page_number }}">上一页</a>
+                        {% endif %}
+
+                        {% for num in page.paginator.page_range %}
+                            <a href="{% url 'classapp:classmates' %}?num={{ num }}">{{ num }}</a>
+                        {% endfor %}
+
+                        {% if page.has_next %}
+                            <a href="{% url 'classapp:classmates' %}?num={{ page.next_page_number }}">下一页</a>
+                        {% endif %}
+                    </div>
+				</div>
+			</div>
+			<div id="footer">
+				<div id="footer_bg">
+				ABC@126.com
+				</div>
+			</div>
+		</div>
+        <script type="application/javascript">
+
+            function del(a) {
+
+                var msg="请确认您真的要删除吗？\n\n请确认！";
+                if(confirm(msg)==true){
+                    location.href="{% url 'classapp:delMate' %}?id="+a+"&num={{ page.number }}&num2={{ page.end_index }}&num3={{ page.start_index }}";
+                    return true
+                }else{
+                    return false;
+                }
+
+            }
+
+
+
+        </script>
+
+
+
+	</body>
+</html>

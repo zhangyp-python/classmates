@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+{% load static %}
+<html>
+	<head>
+		<title>ClassMateNode</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+
+
+	</head>
+    <style>
+        .divbox{
+            margin: 10px auto;
+            text-align: center;
+        }
+    </style>
+
+	<body>
+		<div id="wrap">
+			<div id="top_content">
+				<div id="header">
+					<div id="rightheader">
+						<p>
+							2009/11/20
+							<br />
+						</p>
+					</div>
+					<div id="topheader">
+						<h1 id="title">
+							<a href="#">main</a>
+						</h1>
+					</div>
+					<div id="navigation">
+					</div>
+				</div>
+				<div id="content">
+					<p id="whereami">
+					</p>
+					<h1>
+						Welcome!
+					</h1>
+					<table class="table">
+						<tr class="table_header">
+							<td>
+								ID
+							</td>
+
+
+
+                            <td>
+								node
+							</td>
+                            <td>
+								node_time
+							</td>
+                            <td>
+								mate_node_id
+							</td>
+                            <td>
+								mate_name
+							</td>
+
+
+
+						</tr>
+
+                        {% for foo in page.object_list %}
+                            <tr class="row2">
+                                <td>{{ forloop.counter}}</td>
+
+
+                                <td>{{ foo.node }}</td>
+                                <td>{{ foo.node_time|date:'Y/m/d H:i:s' }}</td>
+                                <td>{{ foo.mate_node.id }}</td>
+                                <td>{{ foo.mate_node.name }}</td>
+
+
+
+
+
+
+
+                            </tr>
+                        {% endfor %}
+
+
+
+
+
+
+					</table>
+					<p>
+						<input type="button" class="button" value="update_mate_node" onclick="location='{% url 'classapp:update_mate_node' %}?id={{ page.object_list.0.mate_node.id}}'"/>
+						<input type="button" class="button" value="classmates" onclick="location='{% url 'classapp:classmates' %}'"/>
+					</p>
+                     <div class="divbox">
+                        {% if page.has_previous %}
+                        <a href="{% url 'classapp:update_mate_node' %}?num={{ page.previous_page_number }}">上一页</a>
+                        {% endif %}
+
+                        {% for num in page.paginator.page_range %}
+                            <a href="{% url 'classapp:update_mate_node' %}?num={{ num }}">{{ num }}</a>
+                        {% endfor %}
+
+                        {% if page.has_next %}
+                            <a href="{% url 'classapp:update_mate_node' %}?num={{ page.next_page_number }}">下一页</a>
+                        {% endif %}
+                    </div>
+				</div>
+			</div>
+			<div id="footer">
+				<div id="footer_bg">
+				ABC@126.com
+				</div>
+			</div>
+		</div>
+        <script type="application/javascript">
+
+
+
+
+
+        </script>
+
+
+
+	</body>
+</html>
